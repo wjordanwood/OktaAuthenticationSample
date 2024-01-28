@@ -9,10 +9,9 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
-        builder.Services.AddControllersWithViews(options =>
-        {
-            
-        });
+        builder.Services.AddControllersWithViews();
+        
+        // NCC: Add reference to okta extension library where we add the specific authentication and authorization logic for okta
         builder.AddOktaAuthentication();
 
         var app = builder.Build();
@@ -30,6 +29,7 @@ public class Program
 
         app.UseRouting();
 
+        // NCC: Add .NET standard authentication and authorization pieces
         app.UseAuthentication();
         app.UseAuthorization();
 

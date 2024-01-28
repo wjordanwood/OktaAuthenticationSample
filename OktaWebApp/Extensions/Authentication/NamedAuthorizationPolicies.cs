@@ -25,11 +25,13 @@ public static class AuthorizationPolicyNames
 
 public static class NamedAuthorizationPolicies
 {
+    // simplify bloat of "Add Policy" by making it iterative
     public static List<NamedAuthorizationPolicy> EnabledPolicies =>
     [
         GeneralUserPolicy, GroupOnePolicy, GroupOneManagerPolicy, ManagerPolicy, AdminPolicy
     ];
     
+    // NCC: Define Authorization Policies that will be added during startup to be referenced in controllers using [Authorize(PolicyName)]
     #region Policy Definitions
     // Used as the Fallback Policy, meaning that unless you specify
     //      a higher group policy to further restrict access
@@ -71,13 +73,23 @@ public static class NamedAuthorizationPolicies
     #endregion
 }
 
+/// <summary>
+/// simplify authorization policy declaration by making an object that we can make a bunch of and iterate through
+/// </summary>
+/// <param name="name"></param>
+/// <param name="policy"></param>
 public class NamedAuthorizationPolicy(string name, AuthorizationPolicy policy)
 {
     public string Name { get; } = name;
     public AuthorizationPolicy Policy { get; } = policy;
 }
 
-
+/// <summary>
+/// Used on View to dynamically render UI, you tell it the roles that are required for a link to show and then use HasRequiredRoles to check before rendering HTML
+/// </summary>
+/// <param name="linkText"></param>
+/// <param name="redirectAction"></param>
+/// <param name="requiredRoles"></param>
 public class RequiredRoleLink(string linkText, string redirectAction, List<string>? requiredRoles)
 {
     public List<string>? RequiredRoles { get; set; } = requiredRoles;

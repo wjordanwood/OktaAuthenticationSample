@@ -4,7 +4,7 @@
     ViewData["Title"] = "Home Page";
     var user = User.Identity as ClaimsIdentity;
 
-    // Link Text, Redirect Action
+    // Link Text, Redirect Action, Required Roles
     List<RequiredRoleLink> policyLinks = new List<RequiredRoleLink>()
     {
         new("Regular Joe", "RegularJoe", null),

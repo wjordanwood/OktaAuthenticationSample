@@ -7,6 +7,7 @@ using Okta.AspNetCore;
 namespace OktaWebApp.Extensions.Authentication;
 
 public static class OktaAuthenticationExtensions {
+    // NCC: Add Okta specific Authentication and Authorization Logic (these could be done separately, because one is not dependent on the other) Authorization is our policy setup that allows us to have rbac
     public static WebApplicationBuilder AddOktaAuthentication(this WebApplicationBuilder builder) {
 	    builder.Services.AddAuthentication(options =>
         {
