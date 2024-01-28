@@ -1,0 +1,37 @@
+﻿@using System.Security.Claims
+@using OktaWebApp.Extensions.Authentication
+@{
+    ViewData["Title"] = "Home Page";
+    var user = User.Identity as ClaimsIdentity;
+
+    // Link Text, Redirect Action
+    List<RequiredRoleLink> policyLinks = new List<RequiredRoleLink>()
+    {
+        new("Regular Joe", "RegularJoe", null),
+        new("Regular Manager", "Manager", new List<string>(){ OktaGroups.Manager }),
+        new("Group 1 User", "Group1", new List<string>(){ OktaGroups.Group1 }),
+        new("Group 1 Manager", "Group1Manager", new List<string>(){ OktaGroups.Group1, OktaGroups.Manager }),
+        new("Admin", "Admin", new List<string>(){ OktaGroups.Admin }),
+        
+    };
+}
+
+<div class="text-center">
+    <h1 class="display-4">Policy Testing</h1>
+    @if (user?.IsAuthenticated ?? false)
+    {
+        <ul>
+            @foreach (var policyLink in policyLinks)
+            {
+                @if (policyLink.HasRequiredRoles(user))
+                {
+                    <li>@Html.ActionLink(policyLink.LinkText, policyLink.RedirectAction, "Policy")</li>
+                }
+            }
+        </ul>
+    }
+    else
+    {
+        <p>These aren't the droids you are looking for</p>
+    }
+</div>

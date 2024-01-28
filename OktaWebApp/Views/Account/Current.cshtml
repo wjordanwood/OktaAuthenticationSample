@@ -1,0 +1,10 @@
+@model CurrentUserViewModel
+
+<ul>
+    @foreach (var claim in Model.Claims)
+    {
+        <li>
+            @claim.Type : @claim.Value
+        </li>
+    }
+</ul>
